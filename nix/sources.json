@@ -1,0 +1,38 @@
+{
+    "lefthook": {
+        "branch": "master",
+        "description": "Fast and powerful Git hooks manager for any type of projects.",
+        "homepage": "https://github.com/Arkweid/lefthook",
+        "owner": "Arkweid",
+        "repo": "lefthook",
+        "rev": "v0.6.3",
+        "sha256": "01zvlw2yyxjg92d1qag1b42kc2kd68h4fmrv9y6ar7z0rw3p9a5d",
+        "type": "tarball",
+        "url": "https://github.com/Arkweid/lefthook/archive/v0.6.3.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "niv": {
+        "branch": "master",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/nmattia/niv",
+        "owner": "nmattia",
+        "repo": "niv",
+        "rev": "1dd094156b249586b66c16200ecfd365c7428dc0",
+        "sha256": "1b2vjnn8iac5iiqszjc2v1s1ygh0yri998c0k3s4x4kn0dsqik21",
+        "type": "tarball",
+        "url": "https://github.com/nmattia/niv/archive/1dd094156b249586b66c16200ecfd365c7428dc0.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixpkgs-19.09-darwin",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "f97286bba3f43a6faadc5a64f311b6ad16b79683",
+        "sha256": "0q7rhnhvggbznww7pwhl5vk3if7n43il2r7xwp019yrhvjc3xvx7",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/f97286bba3f43a6faadc5a64f311b6ad16b79683.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}
