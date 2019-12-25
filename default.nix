@@ -35,7 +35,13 @@ with pkgs;
 	  (lib.attrByPath ["configure" "packages"] {} args)  
       ;
 
-      # - Structure of `pluginsList`:
+      vimPlugPluginsList = lib.attrByPath ["configure" "plug" "plugins"] [] args;
+
+      # Plugins composed from attr sets of:
+      # 1. 'start' and 'opt' for each `packages.<package_name>`
+      # 2. `vimPlugins`
+      #
+      # Structure of `pluginsList`:
       # [
       #   <plugin 1>
       #   {
@@ -49,11 +55,13 @@ with pkgs;
           (map 
             ( pkg: (pkg.start or []) ++ (pkg.opt or []) )
             packagesList)
+        ++
+	vimPlugPluginsList
       ;
 
-      # Grab all the vimrc from 'start' and 'opt' for each packages.'<package_name>'
+      # Grab all the vimrc from each item in plugins list
       #
-      # Vimrc will be ordered alphabetically via package name in the override config.
+      # For vim packages, vimrc will be ordered alphabetically via package name in the override config.
       # i.e.; vimrc from plugins in `packages.a` will come before `packages.b`.
       customRC = 
         utils.combineVimRC 
@@ -75,15 +83,19 @@ with pkgs;
         (lib.attrByPath ["configure" "packages"] {} args)
       ;
 
-
-      # TODO handle vimPlug case later
-      # plugPlugins = ;
+      plugPlugins = 
+	map 
+	  (p: if  (lib.isAttrs p) && !(lib.isDerivation p) 
+	      then p.plugin
+	      else p)
+	  vimPlugPluginsList
+      ;
   
       # Create a duplicate args tree structure with our new values.
       newArgs = {
         configure = {
           inherit customRC packages;
-          # plug.plugins = plugPlugins;
+          plug.plugins = plugPlugins;
         };
       };
 
