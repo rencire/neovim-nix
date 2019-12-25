@@ -22,9 +22,9 @@ neovim.override {
 	}
       ];
       opt = [];
-    }
+    };
 
-  }
+  };
 }
 
 
