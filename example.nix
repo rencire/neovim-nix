@@ -12,8 +12,8 @@ with pkgs;
           start = [
             {
 	      plugin = vimPlugins.vim-tmux-navigator;
-	      vimrc = '' "package a. start. plugin 1 \
-	      "fdafd
+	      vimrc = '' 
+	        "package a. start. plugin 1 
 	      '';
 	    }
           ];

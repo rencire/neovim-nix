@@ -3,17 +3,20 @@
 with pkgs;
 
   let
-    utils = import ./utils.nix {inherit (pkgs) lib;};
+    utils = callPackage ./utils.nix {};
   
+    # Preprocesses args before passing in to `neovim.override`.
+    #
+    # Essentially, it translates our vim plugin schema to one accepted by `neovim.override`.
+    # Currently all it does is remove `vimrc` from plugin lists, and combines them in `customRC`.
     wrapper = {
       ...
     } @args:
   
     let
 
-      # Will sort packages via package name alphbetically.  This is default behavior of `lib.attrValues`
-
-      # packagesList:
+      # Will sort packages via package name alphbetically.  This is default behavior of `lib.attrValues`.
+      # - Structure of `packagesList`:
       # [
       #   # package one
       #   {
@@ -32,13 +35,21 @@ with pkgs;
 	  (lib.attrByPath ["configure" "packages"] {} args)  
       ;
 
+      # - Structure of `pluginsList`:
+      # [
+      #   <plugin 1>
+      #   {
+      #     plugin = <plugin 2>;
+      #     vimrc = ...;
+      #   }
+      #   ...
+      # ]
       pluginsList = 
         lib.flatten
           (map 
             ( pkg: (pkg.start or []) ++ (pkg.opt or []) )
             packagesList)
       ;
-  
 
       # Grab all the vimrc from 'start' and 'opt' for each packages.'<package_name>'
       #
@@ -51,8 +62,8 @@ with pkgs;
       ;
 
       # Implementation assumes:
-      #  - "start" and "opt" attributes are not of type Attribute Set (currently are Lists).
-      #  - If each item in "start" and "opt" list is an Attribute Set, assume it has "plugin" attribute
+      # - "start" and "opt" attributes are not of type Attribute Set (currently are Lists).
+      # - If each item in "start" and "opt" list is an Attribute Set, assume it has "plugin" attribute
       #    with the corresponding plugin derivation as value.  Else, assume the item itself is the plugin derivation.
       packages = lib.mapAttrsRecursive
         (path: value: 
@@ -68,6 +79,7 @@ with pkgs;
       # TODO handle vimPlug case later
       # plugPlugins = ;
   
+      # Create a duplicate args tree structure with our new values.
       newArgs = {
         configure = {
           inherit customRC packages;
@@ -75,6 +87,7 @@ with pkgs;
         };
       };
 
+      # Recursively merge new args with existing args
       overrides = lib.recursiveUpdate args newArgs; 
 
     in
