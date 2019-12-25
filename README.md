@@ -53,7 +53,7 @@ plugins = [
 - [] doc: formalize plugin grammar
 - [x] feat: vimrc from 'packages' generated in order of declaration (ordered via package attribute name).
   - to debug generated vimrc: nix-build example.nix && ./result/bin/nvim +scr1 
-- [] fix: extra leading whitespace in vimrc declared in configuration
+- [x] fix: extra leading whitespace in vimrc declared in configuration
 - [x] feat: vimrc from 'vimPlug' 
 - [] doc: add quick start
 
