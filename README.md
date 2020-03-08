@@ -2,7 +2,7 @@
 
 This is a wrapper nix expression around the neovim package. It adds an enhancement to the override API to colocate any plugin-specific vimrc with their corresponding plugins.
 
-# Background/Rationale
+## Background/Rationale
 
 The [neovim package](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/applications/editors/neovim/wrapper.nix) is using the API provided by [vim-utils](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/misc/vim-plugins/vim-utils.nix) to specify vim plugins and custom `vimrc`.
 
@@ -149,11 +149,11 @@ nix-build default.nix
 ./result/bin/nvim
 ```
 
-## NUR
+### NUR
 
 <todo>
 
-# Troubleshoot
+## Troubleshoot
 
 Check the output script sourced by neovim:
 
@@ -161,7 +161,7 @@ Check the output script sourced by neovim:
 nix-build default.nix && ./result/bin/nvim +scr1
 ```
 
-# Notes
+## Notes
 
 ```
 neovim.override {
@@ -205,7 +205,7 @@ plugins = [
 
 ```
 
-# TODO
+## TODO
 
 - [x] create initial interface for specifying plugins
 - [] doc: formalize plugin grammar
@@ -215,9 +215,9 @@ plugins = [
 - [x] feat: vimrc from 'vimPlug'
 - [] doc: add quick start
 
-# Development
+## Development
 
-## 0) Prerequisites
+### 0) Prerequisites
 
 - [Nix](https://nixos.org/nix/)
 - [Niv](https://github.com/nmattia/niv)
@@ -225,7 +225,7 @@ plugins = [
   - allows auto loading packages when navigating to this directory
   - can install via nix: `nix-env -i direnv`
 
-## 1) Update nixpkgs version to latest branch.
+### 1) Update nixpkgs version to latest branch.
 
 linux:
 
@@ -239,7 +239,7 @@ macos:
 niv update nixpkgs -b nixpkgs-19.09-darwin
 ```
 
-## 2) Add project packages
+### 2) Add project packages
 
 If package is available in nix, add it to `shell.nix`
 
@@ -254,7 +254,7 @@ with import ./nix;
   }
 ```
 
-## 3) Install packages
+### 3) Install packages
 
 With `direnv` installed:
 
@@ -271,7 +271,7 @@ Alternatively, without using `direnv`, just use `nix-shell`:
 nix-shell
 ```
 
-## 4) Setup git hooks
+### 4) Setup git hooks
 
 Run:
 
