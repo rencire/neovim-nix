@@ -1,4 +1,3 @@
-{ lib }:
 {
   # plugins:  List
   # customRC: String
@@ -17,31 +16,4 @@
         "\n"
         ( [ customRC ] ++ pluginsVimrc )
     ;
-
-
-#  filterVimPlugPlugins = plugins:
-#    builtins.map 
-#      (x: x.plugin)
-#      (builtins.filter 
-#        (x: builtins.hasAttr "manager" x && x.manager == "plug")
-#        plugins)
-#    ;
-
-
-  
-
-  # plugins: List
-  #
-  # Returns
-  # - List of derivations
- # getPluginDerivations = plugins:
- #   builtins.map
- #     (p: if lib.isDerivation 
- #           then p
- #         else if (builtins.isAttrs p && builtins.hasAttr "plugin" p) 
- #           then p.plugin)
- #     builtins.filter 
- #       (p: lib.isDerivation p || (builtins.isAttrs p && builtins.hasAttr "plugin" p))
- #   ;
-	  
 }

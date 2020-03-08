@@ -3,7 +3,7 @@
 with pkgs;
 
   let
-    utils = callPackage ./utils.nix {};
+    utils = import ./utils.nix;
   
     # Preprocesses args before passing in to `neovim.override`.
     #
