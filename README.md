@@ -1,54 +1,13 @@
 # Neovim Nix
 
-This is a nix package of neovim, with a slight enhancement to the override api.  This adds the ability to organize `vimrc` at the "plugin attribute set" level.
+This is a wrapper nix expression around the neovim package. It adds an enhancement to the override API to colocate any plugin-specific vimrc with their corresponding plugins.
 
-# Quick Start
+# Background/Rationale
 
-## Niv (recommended)
-In a [niv][] project:
+The [neovim package](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/applications/editors/neovim/wrapper.nix) is using the API provided by [vim-utils](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/misc/vim-plugins/vim-utils.nix) to specify vim plugins and custom `vimrc`.
 
-```bash
-niv init try-neovim
-niv add rencire/neovim.nix
-cd try-neovim
-```
+For example, one specifies their plugins like so:
 
-`try-neovim/default.nix`
-```
-let
-  sources = import ./nix/sources.nix;
-  pkgs = import sources.nixpkgs {};
-in
-  sources.neovim.override {
-    configure = {
-      customRC = ''
-	set number
-      '';
-      packages.main = with pkgs.vimPlugins; [
-        start = [
-          
-          { 
-            plugin = ;
-            vimrc = ''
-              "Specific vimrc config for plugin 1
-            '';
-          }
-        ];
-      }
-  }
-
-```
-
-
-
-
-
-
-
-
-# Interface
-
-Before:
 ```
 {pkgs ? import <nixpkgs>}:
 
@@ -82,7 +41,7 @@ neovim.override {
 }
 ```
 
-After:
+Now with this package, we can group the plugin-specific vimrc together with the corresponding plugin:
 
 ```
 {pkgs ? import <nixpkgs>}:
@@ -97,13 +56,13 @@ neovim.override {
     packages.main = with vimPlugins; [
       start = [
         plugin-0-deriv
-        { 
+        {
           plugin = plugin-1-deriv;
           vimrc = ''
             "Specific vimrc config for plugin 1
           '';
         }
-        { 
+        {
           plugin = plugin-2-deriv;
           vimrc = ''
             "Specific vimrc config for plugin 2
@@ -111,7 +70,7 @@ neovim.override {
         }
       ];
       opt = [
-        { 
+        {
           plugin = plugin-3-deriv;
           vimrc = ''
             "Specific vimrc config for plugin 3
@@ -120,9 +79,9 @@ neovim.override {
       ];
     ];
 
-    plug.plugins = with vimPlugins; 
+    plug.plugins = with vimPlugins;
       [
-        { 
+        {
           plugin = plugin-4-deriv;
           vimrc = ''
             "Specific vimrc config for plugin 4
@@ -133,9 +92,74 @@ neovim.override {
 }
 ```
 
+Note: Here `plugin-0-deriv` doesn't need any vimrc, hence just specifying the derviation is fine.
+For each of the other plugins that do require a vimrc, we specify an `attribute set` with the properties `plugin` and `vimrc`.
 
+# Usage
 
+## Niv
 
+First setup [niv](https://github.com/nmattia/niv), and initialize your project. Then follow instructions below in your project folder:
+
+1. Add the package:
+
+```bash
+niv add rencire/neovim-nix
+```
+
+2. Use the `neovim-nix` wrapper expression. Make sure to pass in `lib` and `neovim` from `nixpkgs`.
+
+Here's a sample `default.nix` expression with the `neovim-nix` wrapped derivation:
+
+```
+let
+  sources = import ./nix/sources.nix;
+  pkgs = import sources.nixpkgs {};
+  my-neovim = import sources.neovim-nix { lib = pkgs.lib; neovim = pkgs.neovim; };
+in
+  my-neovim.override {
+    configure = {
+      customRC = ''
+	set number
+      '';
+      packages.main = with pkgs.vimPlugins; [
+        start = [
+          {
+            plugin = ;
+            vimrc = ''
+              "Specific vimrc config for plugin 1
+            '';
+          }
+        ];
+      }
+  }
+
+```
+
+3. Build your derivation. i.e.:
+
+```bash
+nix-build default.nix
+
+```
+
+4. Run neovim binary. e.g.:
+
+```bash
+./result/bin/nvim
+```
+
+## NUR
+
+<todo>
+
+# Troubleshoot
+
+Check the output script sourced by neovim:
+
+```bash
+nix-build default.nix && ./result/bin/nvim +scr1
+```
 
 # Notes
 
@@ -190,7 +214,6 @@ plugins = [
 - [x] fix: extra leading whitespace in vimrc declared in configuration
 - [x] feat: vimrc from 'vimPlug'
 - [] doc: add quick start
-
 
 # Development
 
@@ -255,5 +278,3 @@ Run:
 ```
 lefthook install
 ```
-
-
