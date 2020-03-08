@@ -211,7 +211,8 @@ plugins = [
   - to debug generated vimrc: nix-build example.nix && ./result/bin/nvim +scr1
 - [x] fix: extra leading whitespace in vimrc declared in configuration
 - [x] feat: vimrc from 'vimPlug'
-- [] doc: add quick start
+- [] doc: add instructions for using [NUR](https://github.com/nix-community/NUR)
+- [] doc: add support for [nix flakes](https://github.com/NixOS/rfcs/pull/49) once its stable. consider deprecating niv workflow then.
 
 ## Development
 
