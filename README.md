@@ -6,13 +6,9 @@ This is a wrapper nix expression around the neovim package. It adds an enhanceme
 
 The [neovim package](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/applications/editors/neovim/wrapper.nix) is using the API provided by [vim-utils](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/misc/vim-plugins/vim-utils.nix) to specify vim plugins and custom `vimrc`.
 
-For example, one specifies their plugins like so:
+For example, one might specify their neovim configuration like so:
 
 ```
-{pkgs ? import <nixpkgs>}:
-
-with pkgs;
-
 neovim.override {
   configure = {
     customRC = ''
@@ -26,7 +22,7 @@ neovim.override {
 
       "Specific vimrc config for plugin 4
     '';
-    packages.main = with vimPlugins; {
+    packages.main = with pkgs.vimPlugins; {
       start = [
         plugin-0-deriv
         plugin-1-deriv
@@ -34,26 +30,24 @@ neovim.override {
       ];
       opt = [ plugin-3-deriv ]
     };
-    plug.plugins = with vimPlugins; [
+    plug.plugins = with pkgs.vimPlugins; [
       plugin-4-deriv
     ];
   };
 }
 ```
 
-Now with this package, we can group the plugin-specific vimrc together with the corresponding plugin:
+However, as the number of plugins grow, one might want to group the plugin-specific vimrc together with its corresponding plugin derivation for better organization.
+
+With our new wrapper nix expression, we can specify our neovim configuration like so:
 
 ```
-{pkgs ? import <nixpkgs>}:
-
-with pkgs;
-
 neovim.override {
   configure = {
     customRC = ''
       "General vimrc config
     '';
-    packages.main = with vimPlugins; [
+    packages.main = with pkgs.vimPlugins; {
       start = [
         plugin-0-deriv
         {
@@ -79,7 +73,7 @@ neovim.override {
       ];
     ];
 
-    plug.plugins = with vimPlugins;
+    plug.plugins = with pkgs.vimPlugins;
       [
         {
           plugin = plugin-4-deriv;
@@ -88,12 +82,16 @@ neovim.override {
           '';
         }
       ];
+    };
   };
 }
 ```
 
-Note: Here `plugin-0-deriv` doesn't need any vimrc, hence just specifying the derviation is fine.
-For each of the other plugins that do require a vimrc, we specify an `attribute set` with the properties `plugin` and `vimrc`.
+Notes:
+
+- Here `plugin-0-deriv` doesn't need any vimrc, hence just specifying the derviation is fine.
+  For each of the other plugins that do require a vimrc, we specify an `attribute set` with the properties `plugin` and `vimrc`.
+- Code above are just examples. See "Usage" section for details on working code.
 
 # Usage
 
@@ -115,9 +113,9 @@ Here's a sample `default.nix` expression with the `neovim-nix` wrapped derivatio
 let
   sources = import ./nix/sources.nix;
   pkgs = import sources.nixpkgs {};
-  my-neovim = import sources.neovim-nix { lib = pkgs.lib; neovim = pkgs.neovim; };
+  neovim = import sources.neovim-nix { lib = pkgs.lib; neovim = pkgs.neovim; };
 in
-  my-neovim.override {
+  neovim.override {
     configure = {
       customRC = ''
 	set number
