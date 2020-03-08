@@ -1,6 +1,4 @@
-{ pkgs ? import ./nix {} }:
-
-with pkgs;
+{ lib, neovim }:
 
   let
     utils = import ./utils.nix;

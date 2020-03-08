@@ -1,9 +1,8 @@
 { pkgs ? import ./nix {} }:
 
-with pkgs;
-
 let
-  neovim = import ./default.nix {};
+  neovim = import ./default.nix { lib = pkgs.lib; neovim = pkgs.neovim; };
+  vimPlugins = pkgs.vimPlugins;
 in
   neovim.override {
     configure = {
