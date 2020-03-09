@@ -69,7 +69,7 @@
 
       # Implementation assumes:
       # - "start" and "opt" attributes are not of type Attribute Set (currently are Lists).
-      # - If each item in "start" and "opt" list is an Attribute Set, assume it has "plugin" attribute
+      # - If an item in "start" and "opt" lists is an Attribute Set, assume it has "plugin" attribute
       #    with the corresponding plugin derivation as value.  Else, assume the item itself is the plugin derivation.
       packages = lib.mapAttrsRecursive
         (path: value: 
