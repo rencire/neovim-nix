@@ -1,7 +1,7 @@
 { lib, neovim }:
 
   let
-    utils = import ./utils.nix;
+    utils = import ./utils.nix {inherit lib;};
   
     # Preprocesses args before passing in to `neovim.override`.
     #
