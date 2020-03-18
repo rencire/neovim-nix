@@ -5,6 +5,72 @@ This is a wrapper nix expression around the neovim package. It adds a few enhanc
 - Support colocating plugin-specific vimrc with their corresponding plugins. (See `example.nix`)
 - Support specifying settings for [coc plugins](https://github.com/neoclide/coc.nvim) (See `example_coc.nix`)
 
+# Usage
+
+## Niv
+
+First setup [niv](https://github.com/nmattia/niv), and initialize your project. Then follow instructions below in your project folder:
+
+1. Add the package:
+
+```bash
+niv add rencire/neovim-nix
+```
+
+2. Use the `neovim-nix` wrapper expression. Make sure to pass in `lib` and `neovim` from `nixpkgs`.
+
+Here's a sample `default.nix` expression with the `neovim-nix` wrapped derivation:
+
+```
+let
+  sources = import ./nix/sources.nix;
+  pkgs = import sources.nixpkgs {};
+  neovim = import sources.neovim-nix { lib = pkgs.lib; neovim = pkgs.neovim; };
+in
+  neovim.override {
+    configure = {
+      customRC = ''
+	set number
+      '';
+      packages.main = with pkgs.vimPlugins; [
+        start = [
+          {
+            plugin = surround;
+            vimrc = ''
+              "Insert specific vimrc config for `surround` vim plugin here
+            '';
+          }
+        ];
+      }
+  }
+
+```
+
+3. Build your derivation. i.e.:
+
+```bash
+nix-build default.nix
+
+```
+
+4. Run neovim binary. e.g.:
+
+```bash
+./result/bin/nvim
+```
+
+### NUR
+
+<todo>
+
+## Troubleshoot
+
+Check the output script sourced by neovim:
+
+```bash
+nix-build default.nix && ./result/bin/nvim +scr1
+```
+
 ## Background/Rationale
 
 ### `vimrc` attribute for `vimPlugins`
@@ -101,72 +167,6 @@ Notes:
 ### `settings` attribute for coc `vimPlugins`
 
 <todo>
-
-# Usage
-
-## Niv
-
-First setup [niv](https://github.com/nmattia/niv), and initialize your project. Then follow instructions below in your project folder:
-
-1. Add the package:
-
-```bash
-niv add rencire/neovim-nix
-```
-
-2. Use the `neovim-nix` wrapper expression. Make sure to pass in `lib` and `neovim` from `nixpkgs`.
-
-Here's a sample `default.nix` expression with the `neovim-nix` wrapped derivation:
-
-```
-let
-  sources = import ./nix/sources.nix;
-  pkgs = import sources.nixpkgs {};
-  neovim = import sources.neovim-nix { lib = pkgs.lib; neovim = pkgs.neovim; };
-in
-  neovim.override {
-    configure = {
-      customRC = ''
-	set number
-      '';
-      packages.main = with pkgs.vimPlugins; [
-        start = [
-          {
-            plugin = ;
-            vimrc = ''
-              "Specific vimrc config for plugin 1
-            '';
-          }
-        ];
-      }
-  }
-
-```
-
-3. Build your derivation. i.e.:
-
-```bash
-nix-build default.nix
-
-```
-
-4. Run neovim binary. e.g.:
-
-```bash
-./result/bin/nvim
-```
-
-### NUR
-
-<todo>
-
-## Troubleshoot
-
-Check the output script sourced by neovim:
-
-```bash
-nix-build default.nix && ./result/bin/nvim +scr1
-```
 
 ## Notes
 
