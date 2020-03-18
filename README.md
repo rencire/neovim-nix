@@ -222,6 +222,7 @@ plugins = [
 - [x] feat: vimrc from 'vimPlug'
 - [] doc: add instructions for using [NUR](https://github.com/nix-community/NUR)
 - [] doc: add support for [nix flakes](https://github.com/NixOS/rfcs/pull/49) once its stable. consider deprecating niv workflow then.
+- [] docs: add table of contents
 
 ## Development
 
