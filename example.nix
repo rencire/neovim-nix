@@ -5,6 +5,7 @@ let
   vimPlugins = pkgs.vimPlugins;
 in
   neovim.override {
+    withNodeJs = true;
     configure = {
       customRC = ''
       "from customrc
