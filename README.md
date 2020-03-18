@@ -1,8 +1,13 @@
 # Neovim Nix
 
-This is a wrapper nix expression around the neovim package. It adds an enhancement to the override API to colocate any plugin-specific vimrc with their corresponding plugins.
+This is a wrapper nix expression around the neovim package. It adds a few enhancements to the override API:
+
+- Support colocating plugin-specific vimrc with their corresponding plugins. (See `example.nix`)
+- Support specifying settings for [coc plugins][https://github.com/neoclide/coc.nvim] (See `example_coc.nix`)
 
 ## Background/Rationale
+
+### `vimrc` attribute for `vimPlugins`
 
 The [neovim package](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/applications/editors/neovim/wrapper.nix) is using the API provided by [vim-utils](https://github.com/NixOS/nixpkgs/blob/20.03-beta/pkgs/misc/vim-plugins/vim-utils.nix) to specify vim plugins and custom `vimrc`.
 
@@ -92,6 +97,10 @@ Notes:
 - Here `plugin-0-deriv` doesn't need any vimrc, hence just specifying the derviation is fine.
   For each of the other plugins that do require a vimrc, we specify an `attribute set` with the properties `plugin` and `vimrc`.
 - Code above are just examples. See "Usage" section for details on working code.
+
+### `settings` attribute for coc `vimPlugins`
+
+<todo>
 
 # Usage
 
