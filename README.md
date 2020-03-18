@@ -3,7 +3,7 @@
 This is a wrapper nix expression around the neovim package. It adds a few enhancements to the override API:
 
 - Support colocating plugin-specific vimrc with their corresponding plugins. (See `example.nix`)
-- Support specifying settings for [coc plugins][https://github.com/neoclide/coc.nvim] (See `example_coc.nix`)
+- Support specifying settings for [coc plugins](https://github.com/neoclide/coc.nvim) (See `example_coc.nix`)
 
 ## Background/Rationale
 
