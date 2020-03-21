@@ -23,7 +23,7 @@
         (builtins.map
 	  (x: lib.attrsets.attrByPath ["settings"] {} x)  # default to empty set if "settings" doesn't exist
 	  (builtins.filter
-	    (p: lib.strings.hasPrefix "vimplugin-coc-" p.plugin.name) 
+	    (p: builtins.hasAttr "plugin" p && lib.strings.hasPrefix "vimplugin-coc-" p.plugin.name) 
 	    plugins)
         );
 
