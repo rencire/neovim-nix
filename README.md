@@ -2,8 +2,8 @@
 
 This is a wrapper nix expression around the neovim package. It adds a few enhancements to the override API:
 
-- Support colocating plugin-specific vimrc with their corresponding plugins. (See `example.nix`)
-- Support specifying settings for [coc plugins](https://github.com/neoclide/coc.nvim) (See `example_coc.nix`)
+- Support colocating plugin-specific vimrc with their corresponding plugins. (See `examples/example.nix`)
+- Support specifying settings for [coc plugins](https://github.com/neoclide/coc.nvim) (See `examples/example_coc.nix`)
 
 # Usage
 
@@ -58,6 +58,8 @@ nix-build default.nix
 ```bash
 ./result/bin/nvim
 ```
+
+See `examples` folder for a sample project.
 
 ### NUR
 

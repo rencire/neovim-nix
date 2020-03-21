@@ -3,7 +3,7 @@ with import ./nix {};
     buildInputs = [ 
       # cross platform tool for managing git hooks
       lefthook
-      # used for 'prettier tool for formatting markdown files
+      # need `npx` tool for invoking 'prettier tool for formatting markdown files
       nodejs-10_x
     ];
   }
