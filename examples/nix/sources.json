@@ -5,10 +5,10 @@
         "homepage": null,
         "owner": "rencire",
         "repo": "neovim-nix",
-        "rev": "c7a80723aaaf2ac09cf6976469f8e8d4ceab141b",
-        "sha256": "1v6xnsl83j5730f9mrpm317ylpmym26gd6vp8lcj1912jf3i7gsm",
+        "rev": "8a2b4a46aaa7a368612da83f2e66f791d782554a",
+        "sha256": "0vmpfz4xv8gmx13jzw6lyb1444ds3wpm7waznc37pxg2mcvajhxk",
         "type": "tarball",
-        "url": "https://github.com/rencire/neovim-nix/archive/c7a80723aaaf2ac09cf6976469f8e8d4ceab141b.tar.gz",
+        "url": "https://github.com/rencire/neovim-nix/archive/8a2b4a46aaa7a368612da83f2e66f791d782554a.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
