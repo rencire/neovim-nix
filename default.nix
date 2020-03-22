@@ -80,7 +80,8 @@ let
       	then p.plugin
       	else p)
           value))
-      (lib.attrByPath ["configure" "packages"] {} args)
+      # Note: we need a default package name, else neovim derivation won't build correctly.
+      (lib.attrByPath ["configure" "packages"] { default = {}; } args)
     ;
 
     plugPlugins = 
