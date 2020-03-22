@@ -1,13 +1,12 @@
-{ sources ? import ./sources.nix }:
-let
-  unstable = import sources.nixpkgs-unstable {};
+{ sources ? import ./sources.nix
+, unstable ? import sources.nixpkgs-unstable {}
+}:
 
+let
   # use unstable version of packages
   overlay = selfpkgs: superpkgs:
     { 
       lefthook = unstable.lefthook;
-      neovim = unstable.neovim; 
-      vimPlugins = unstable.vimPlugins; # using unstable since it has working coc plugins
     };
 
   nixpkgs = import sources.nixpkgs-stable
