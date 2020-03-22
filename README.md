@@ -22,27 +22,27 @@ niv add rencire/neovim-nix
 Here's a sample `default.nix` expression with the `neovim-nix` wrapped derivation:
 
 ```
-let
-  sources = import ./nix/sources.nix;
-  pkgs = import sources.nixpkgs {};
-  neovim = import sources.neovim-nix { lib = pkgs.lib; neovim = pkgs.neovim; };
-in
-  neovim.override {
-    configure = {
-      customRC = ''
-	set number
-      '';
-      packages.main = with pkgs.vimPlugins; [
-        start = [
-          {
-            plugin = surround;
-            vimrc = ''
-              "Insert specific vimrc config for `surround` vim plugin here
-            '';
-          }
-        ];
-      }
-  }
+{ sources ? import ./nix/sources.nix
+, pkgs ? import sources.nixpkgs {}
+, neovim ? import sources.neovim-nix { inherit (pkgs) lib neovim; }
+}:
+
+neovim.override {
+  configure = {
+    customRC = ''
+      set number
+    '';
+    packages.main = with pkgs.vimPlugins; [
+      start = [
+        {
+          plugin = surround;
+          vimrc = ''
+            "Insert specific vimrc config for `surround` vim plugin here
+          '';
+        }
+      ];
+    }
+}
 
 ```
 
@@ -59,7 +59,7 @@ nix-build default.nix
 ./result/bin/nvim
 ```
 
-See `examples` folder for a sample project.
+See `examples` folder for more details.
 
 ### NUR
 
