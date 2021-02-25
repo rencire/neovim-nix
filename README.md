@@ -2,8 +2,70 @@
 
 This is a wrapper nix expression around the neovim package. It adds a few enhancements to the override API:
 
-- Support colocating plugin-specific vimrc with their corresponding plugins. (See `examples/example.nix`)
-- Support specifying settings for [coc plugins](https://github.com/neoclide/coc.nvim) (See `examples/example_coc.nix`)
+1. Support colocating plugin-specific vimrc with their corresponding plugins: 
+
+Go from writing this:
+
+```
+neovim.override {
+  configure = {
+    customRC = ''
+      "General vimrc config
+      ...
+
+      "Specific vimrc config for plugin 0
+      ...
+
+      "Specific vimrc config for plugin 1
+      ...
+    '';
+    packages.main = with pkgs.vimPlugins; {
+      start = [
+        plugin-0-deriv
+        plugin-1-deriv
+      ];
+    };
+  };
+}
+```
+
+to this:
+```
+neovim.override {
+  configure = {
+    customRC = ''
+      "General vimrc config
+      ...
+    '';
+    packages.main = with pkgs.vimPlugins; {
+      start = [
+        {
+          plugin = plugin-0-deriv;
+          vimrc = ''
+            "Specific vimrc config for plugin 0
+	    ...
+          '';
+        }
+        {
+          plugin = plugin-1-deriv;
+          vimrc = ''
+            "Specific vimrc config for plugin 1
+	    ...
+          '';
+        }
+      ];
+    ];
+  };
+}
+```
+Also see:
+- "Background/Rationale" section below
+- `examples/example.nix`
+
+2. Support specifying settings for [coc plugins](https://github.com/neoclide/coc.nvim) as a nix expression.
+ 
+- See `examples/example_coc.nix`
+
 
 # Usage
 
