@@ -278,6 +278,7 @@ plugins = [
 
 ## TODO
 
+- [] refactor:instead of adding coc settings to vimrc, consolidate all coc plugin settings into a `coc-settings.json` set to coc-nvim's `coc_config_home` path, 
 - [x] create initial interface for specifying plugins
 - [] doc: formalize plugin grammar
 - [x] feat: vimrc from 'packages' generated in order of declaration (ordered via package attribute name).
