@@ -3,16 +3,14 @@
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs";
-  inputs.neovim.url = "github:neovim/neovim?dir=contrib";
   inputs.neovimConfigureWrapper.url = "github:rencire/neovim-nix";
 
-  outputs = { self, flake-utils, nixpkgs, neovim, neovimConfigureWrapper }: 
+  outputs = { self, flake-utils, nixpkgs, neovimConfigureWrapper }: 
     flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.legacyPackages.${system};
         let
-	  neovim-unwrapped = neovim.defaultPackage.${system};
           wrapNeovimConfigure = neovimConfigureWrapper.wrapNeovimConfigure.${system};
-          neovim-wrapped = wrapNeovimConfigure (pkgs.wrapNeovim neovim-unwrapped {}); 
+          neovim-wrapped = wrapNeovimConfigure (pkgs.neovim); 
         in
           {
             defaultPackage = neovim-wrapped.override {
